@@ -1,0 +1,15 @@
+node {
+    def commit_id
+    def PUBLISH_PROFILE = 'release'
+    stage("Preparation") {
+        checkout scm
+        sh "git rev-parse --short HEAD > .git/commit-id"
+        commit_id = readFile('.git/commit-id').trim()
+    }
+
+    stage("Build") {
+        bat "\"C:\\Program Files (x86)\\MSBuild\\14.0\Bin\\msbuild.exe\" NetMvcApp.sln /p:Configuration=${PUBLISH_PROFILE} /t:rebuild"
+        bat "\"C:\\Program Files (x86)\\MSBuild\\14.0\Bin\\msbuild.exe\" NetMvcApp.csproj /p:DeployOnBuild=true;PublishProfile=${PUBLISH_PROFILE}"
+    }
+}
+
