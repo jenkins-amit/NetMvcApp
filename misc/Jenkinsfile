@@ -8,8 +8,8 @@ node {
     }
 
     stage("Build") {
-        bat "\"C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\msbuild.exe\" NetMvcApp.sln /p:Configuration=${PUBLISH_PROFILE} /t:rebuild"
-        bat "\"C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\msbuild.exe\" NetMvcApp.csproj /p:DeployOnBuild=true;PublishProfile=${PUBLISH_PROFILE}"
+        bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\Bin\\msbuild.exe\" NetMvcApp.sln /p:Configuration=${PUBLISH_PROFILE} /t:rebuild"
+        bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\Bin\\msbuild.exe\" NetMvcApp.csproj /p:DeployOnBuild=true;PublishProfile=${PUBLISH_PROFILE}"
     }
 }
 
