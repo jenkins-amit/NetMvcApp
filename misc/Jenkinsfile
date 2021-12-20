@@ -1,9 +1,11 @@
 node {
     def commit_id
     def PUBLISH_PROFILE = 'Release'
+    def msbuild = "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\msbuild.exe\""
     def nuget = "\"C:\\Program Files (x86)\\Nuget\\nuget.exe\""
-     def slnName = "NetMvcApp.sln"
-     
+    def slnName = "NetMvcApp.sln"
+    def csProjName = "NetMvcApp.csproj"
+
     stage("Preparation") {
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"
@@ -12,8 +14,8 @@ node {
 
     stage("Build") {
         bat "${nuget} restore \"${slnName}\""
-        bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\msbuild.exe\" NetMvcApp.sln /p:Configuration=${PUBLISH_PROFILE} /t:rebuild"
-        bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\msbuild.exe\" NetMvcApp.csproj /p:DeployOnBuild=true;PublishProfile=${PUBLISH_PROFILE}"
+        bat "${msbuild} ${slnName} /p:Configuration=${PUBLISH_PROFILE} /t:rebuild"
+        bat "${msbuild} ${csProjName} /p:DeployOnBuild=true;PublishProfile=${PUBLISH_PROFILE}"
     }
 }
 
